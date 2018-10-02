@@ -12,7 +12,6 @@ const customStyles = {
     }
 };
 
-// Make sure to bind modal to your appElement (http://reactcommunity.org/react-modal/accessibility/)
 Modal.setAppElement('#root')
 
 export default class Day extends Component {
@@ -23,6 +22,32 @@ export default class Day extends Component {
             category: 'Default',
             modalIsOpen: false,
         }
+    }
+
+    componentWillMount() {
+        let monthDays = this.getCurrentMonthDays(this.props.month);
+        let weekDay = this.getWeeksByFirstDay(this.props.year, this.props.month);
+
+        let today = this.checkToday(this.props.number, this.props.index, weekDay, monthDays);
+
+        this.setState({
+            category: (today ? 'Today' : 'Default')
+        })
+    }
+
+    checkToday = (line, weekIndex, weekDay, monthDays) => {
+
+        let day = this.getDayText(line, weekIndex, weekDay, monthDays)
+        let date = new Date()
+        let todayYear = date.getFullYear()
+        let todayMonth = date.getMonth()
+        let todayDay = date.getDate()
+
+        let today = this.props.year === todayYear && this.props.month === todayMonth && day === todayDay;
+
+        return today;
+
+
     }
 
     closeModal() {
@@ -64,20 +89,17 @@ export default class Day extends Component {
         })
     }
 
-    // setCategory = (type) => {
-    //     this.setState({
-    //         category: type
-    //     })
-    // }
-
     handleCategorySelected = (type) => {
-        
+        let monthDays = this.getCurrentMonthDays(this.props.month);
+        let weekDay = this.getWeeksByFirstDay(this.props.year, this.props.month);
+
+        let today = this.checkToday(this.props.number, this.props.index, weekDay, monthDays);
+
         this.setState({
-            category: type,
-            modalIsOpen:false
+            category: (type==='Default' && today ? 'Today' : type),
+            modalIsOpen: false
         })
-
-
+        
     }
 
     getCategoryColor = (type) => {
@@ -90,6 +112,8 @@ export default class Day extends Component {
                 return '#A52A2A';
             case 'Anniversary':
                 return '#8A2BE2';
+            case 'Today':
+                return '#0000FF';
             default:
                 break;
         }
@@ -108,7 +132,7 @@ export default class Day extends Component {
 
         return (
             <React.Fragment>
-                <td key={index} onClick={this.handleDayClick.bind(this)} style={{backgroundColor: color}}>
+                <td key={index} onClick={this.handleDayClick.bind(this)} style={{ backgroundColor: color }}>
                     {this.getDayText(this.props.number, index, weekDay, monthDays)}
                 </td>
                 <Modal
