@@ -1,13 +1,32 @@
 import React, { Component } from 'react'
+import Modal from 'react-modal';
+
+const customStyles = {
+    content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)'
+    }
+};
+
+// Make sure to bind modal to your appElement (http://reactcommunity.org/react-modal/accessibility/)
+Modal.setAppElement('#root')
 
 export default class Day extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            category: '',
-
+            category: 'Default',
+            modalIsOpen: false,
         }
+    }
+
+    closeModal() {
+        this.setState({ modalIsOpen: false });
     }
 
     getDateByYearMonth = (year, month, day = 1) => {
@@ -40,7 +59,40 @@ export default class Day extends Component {
     }
 
     handleDayClick = () => {
+        this.setState({
+            modalIsOpen: true
+        })
+    }
 
+    // setCategory = (type) => {
+    //     this.setState({
+    //         category: type
+    //     })
+    // }
+
+    handleCategorySelected = (type) => {
+        
+        this.setState({
+            category: type,
+            modalIsOpen:false
+        })
+
+
+    }
+
+    getCategoryColor = (type) => {
+        switch (type) {
+            case 'Holiday':
+                return '#00FFFF'
+            case 'Birthday':
+                return '#FAEBD7';
+            case 'Busy':
+                return '#A52A2A';
+            case 'Anniversary':
+                return '#8A2BE2';
+            default:
+                break;
+        }
     }
 
     render() {
@@ -48,12 +100,30 @@ export default class Day extends Component {
         let monthDays = this.getCurrentMonthDays(this.props.month);
 
         let weekDay = this.getWeeksByFirstDay(this.props.year, this.props.month);
-        let index= this.props.index;
+        let index = this.props.index;
+
+        let type = this.state.category;
+
+        let color = this.getCategoryColor(type);
 
         return (
-            <td key={index} onClick={this.handleDayClick.bind(this)}/*style={{color: this.checkToday(key, index, weekDay, monthDays) ? 'red' : '#000'}}*/>
-                {this.getDayText(this.props.number, index, weekDay, monthDays)}
-            </td>
+            <React.Fragment>
+                <td key={index} onClick={this.handleDayClick.bind(this)} style={{backgroundColor: color}}>
+                    {this.getDayText(this.props.number, index, weekDay, monthDays)}
+                </td>
+                <Modal
+                    isOpen={this.state.modalIsOpen}
+                    onRequestClose={this.closeModal.bind(this)}
+                    style={customStyles}
+                    contentLabel="Example Modal"
+                >
+                    <p onClick={this.handleCategorySelected.bind(this, 'Holiday')}>Holiday</p>
+                    <p onClick={this.handleCategorySelected.bind(this, 'Birthday')}>Birthday </p>
+                    <p onClick={this.handleCategorySelected.bind(this, 'Busy')}>Busy</p>
+                    <p onClick={this.handleCategorySelected.bind(this, 'Anniversary')}>Anniversary</p>
+                    <button onClick={this.handleCategorySelected.bind(this, 'Default')}>Remove</button>
+                </Modal>
+            </React.Fragment>
         )
     }
 }

@@ -9,7 +9,7 @@ export default class Week extends Component {
             <tr>
                 {
                     WEEK_NAMES.map((week, index) => {
-                        return <Day number={this.props.number} index={index} month={this.props.month} year={this.props.year} />
+                        return <Day number={this.props.number} index={index} key={index} month={this.props.month} year={this.props.year} />
                     })
                 }
             </tr>
