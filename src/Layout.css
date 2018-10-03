@@ -42,14 +42,16 @@
 
     cursor: pointer;
 
-    font-family: "宋体";
-
     transition: all 0.3s;
 
 }
 
-.table caption .caption-header .arrow:hover {
+.table caption .arrow:hover {
 
     opacity:0.7;
 
+}
+
+.caption-header {
+    text-align: center
 }
