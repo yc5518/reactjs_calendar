@@ -59,12 +59,10 @@ export default class Year extends Component {
                     <span className="arrow" onClick={this.handleYearChange.bind(this, 1)}>&gt;</span>
                     <p onClick={this.handleTodayClick.bind(this)}>Today</p>
                 </p>
-                
+
                 <React.Fragment>{MONTHS_NAMES.map((month, key) => {
                     return (
-                        <React.Fragment key={key}>
-                            <Month month={key} year={this.state.year} monthName={month}/>
-                        </React.Fragment>
+                        <Month key={key} month={key} year={this.state.year} monthName={month} />
 
                     )
                 }

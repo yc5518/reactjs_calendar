@@ -1,5 +1,14 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+#### Render a yearly view that includes all months and dates of the current year, along the lines of the below illustration
+#### Add the ability to mark a date as one of these categories, by clicking on the date: • Holiday
+• Birthday
+• Busy
+• Anniversary
+Each category should have a different colour. When a date is marked with a category, that date should be highlighted with that colour (similar to highlighted dates in the above illustration).
+Clicking on a date that has a category assigned to it should allow changing or removing the category.
+#### Enhance the calendar to support more than the current year. Provide navigation so the user can switch between different years and a way to navigate to the current year.
+
 Below you will find some information on how to perform common tasks.<br>
 You can find the most recent version of this guide [here](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md).
 

@@ -9,7 +9,7 @@ export default class Month extends Component {
 
     render() {
         return (
-            <React.Fragment>
+            <div>
                 <table cellPadding={0} cellSpacing={0} className="table">
                 <caption>{this.props.monthName}</caption>
                     <thead>
@@ -29,7 +29,7 @@ export default class Month extends Component {
                         }
                     </tbody>
                 </table>
-            </React.Fragment>
+            </div>
         )
     }
 }
